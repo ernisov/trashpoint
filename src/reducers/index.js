@@ -5,4 +5,5 @@ import MarkerReducer from './MarkerReducer';
 
 export default combineReducers({
     map: () => [],
+    auth: AuthReducer,
 });
