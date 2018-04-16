@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Router, Scene } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 import Map from './components/Map';
 import Activity from './components/Activity';
@@ -9,12 +10,38 @@ import AddMarker from './components/AddMarker';
 import Notifications from './components/Notifications';
 import Settings from './components/Settings';
 import TabIcon from './components/TabIcon';
+import LoginForm from './components/LoginForm';
+import Register from './components/Register';
 
 class RouterComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: '0',
+        };
+        const that = this;
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                that.setState({ user: '1', loading: false });
+            } else {
+                that.setState({ user: '0', loading: false });
+            }
+        });
+    }
+
     render() {
         return (
             <Router>
                 <Scene key='root' hideNavBar>
+
+                    <Scene key='loginStart' hideNavBar>
+                        <Scene
+                            key='login'
+                            component={LoginForm}
+                            initial={this.state.user === '0'}
+                        />
+                        <Scene key='register' component={Register} />
+                    </Scene>
 
                     {/* TAB BAR */}
                     <Scene
@@ -26,7 +53,7 @@ class RouterComponent extends Component {
                         swipeEnabled={false}
                         animationEnabled={false}
                         showLabel={false}
-                        initial
+                        initial={this.state.user === '1'}
                     >
                         <Scene
                             key='mapScreen'
