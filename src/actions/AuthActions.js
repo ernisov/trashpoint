@@ -150,6 +150,7 @@ export const newUserNameSave = ({ email ,firstName, lastName }) => {
 
   return () => {
     firebase.database().ref(`/users/${currentUser.uid}`)
-      .set({ email, firstName, lastName })
+      .set({ email, firstName, lastName });
+    Actions.pop({ type: 'reset' });
   }
 };
