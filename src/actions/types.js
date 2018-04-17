@@ -16,5 +16,6 @@ export const MESSAGE = 'message';
 export const NOTVERIFIED = 'notverified';
 export const FIRST_NAME_CHANGED = 'first_name_changed';
 export const LAST_NAME_CHANGED = 'last_name_changed';
+export const NAME_FETCH_SUCCESS = 'name_fetch_success';
 
 export const SEND_MARKER = 'send_makrer';

@@ -10,7 +10,8 @@ import {
   MESSAGE,
   NOTVERIFIED,
   FIRST_NAME_CHANGED,
-  LAST_NAME_CHANGED
+  LAST_NAME_CHANGED,
+  NAME_FETCH_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -61,6 +62,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, firstName: action.payload };
     case LAST_NAME_CHANGED:
       return { ...state, lastName: action.payload };
+    case NAME_FETCH_SUCCESS:
+      return { ...state, firstName: action.firstName, lastName: action.lastName }
     default:
       return state;
   }

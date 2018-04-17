@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderBottomWidth: 0.4,
     borderColor: '#727272',
-    textAlign: 'center',
-    width: SCREEN_WIDTH * 0.77,
+    textAlign: 'center'
   },
   container: {
     height: 40,

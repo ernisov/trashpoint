@@ -123,6 +123,7 @@ class Register extends Component {
                         placeholder='Гарри'
                         onChangeText={this.onFirstNameChange.bind(this)}
                         value={this.props.value}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
 
@@ -132,6 +133,7 @@ class Register extends Component {
                         placeholder='Поттер'
                         onChangeText={this.onLastNameChange.bind(this)}
                         value={this.props.value}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
 
@@ -141,6 +143,7 @@ class Register extends Component {
                         placeholder='example@domain.com'
                         onChangeText={this.onEmailChange.bind(this)}
                         value={this.props.value}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
 
@@ -154,6 +157,7 @@ class Register extends Component {
                         placeholder='Введите ваш пароль'
                         onChangeText={this.onPasswordChange.bind(this)}
                         value={this.props.password}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
 
@@ -164,6 +168,7 @@ class Register extends Component {
                         placeholder='Введите пароль еще раз'
                         onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
                         value={this.state.confirmPassword}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
                   </View>
@@ -255,12 +260,15 @@ const styles = StyleSheet.create({
     color: '#2AD2AC',
     fontSize: 17,
     textDecorationLine: 'underline'
+  },
+  inputFormText: {
+    width: SCREEN_WIDTH * 0.77,
   }
 });
 
 const mapStateToProps = ({ auth }) => {
-    const { email, password, firstName, lastName, error, loading, sent } = auth;
-    return { email, password, firstName, lastName, error, loading, sent };
+  const { email, password, firstName, lastName, error, loading, sent } = auth;
+  return { email, password, firstName, lastName, error, loading, sent };
 };
 
 export default connect(mapStateToProps, {
