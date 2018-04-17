@@ -30,11 +30,11 @@ export const getImage = () => {
           const { uid } = firebase.auth().currentUser;
           const Blob = RNFetchBlob.polyfill.Blob;
           const fs = RNFetchBlob.fs;
-          // const Fetch = RNFetchBlob.polyfill.Fetch;
-          // window.fetch = new Fetch({
-          //     auto: true,
-          //     binaryContentTypes: ['image/'],
-          // }).build();
+          const Fetch = RNFetchBlob.polyfill.Fetch;
+          window.fetch = new Fetch({
+              auto: true,
+              binaryContentTypes: ['image/'],
+          }).build();
           window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
           window.Blob = Blob;
           let uploadBlob = '';

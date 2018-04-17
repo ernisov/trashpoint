@@ -76,7 +76,7 @@ class AddMarker extends Component {
 
   renderImages() {
     return this.props.imageURI.map(value => {
-      return <Image style={styles.image} source={{ uri: value }} />;
+      return <Image key={value} style={styles.image} source={{ uri: value }} />;
     });
   }
 
@@ -123,6 +123,8 @@ class AddMarker extends Component {
   }
 }
 
+console.disableYellowBox = true;
+
 const styles = StyleSheet.create({
   map: {
     height: SCREEN_HEIGHT / 3,
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
   },
   images: {
     paddingVertical: 15,
-    paddingHorizontal: 15,
+    paddingHorizontal: 0,
   },
   image: {
     marginHorizontal: 10,
