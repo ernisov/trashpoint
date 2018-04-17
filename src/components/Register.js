@@ -107,82 +107,78 @@ class Register extends Component {
   
   render() {
     return (
-      <Screen scrollable>
+      <Screen scrollable style={{height: SCREEN_HEIGHT}}>
         {!this.props.sent ?
-          <Animated.View
-            style={{ flex: 1, opacity: this.state.opacityValue }}
-          >
-            <View style={styles.mainView}>
-              <KeyboardAvoidingView behavior='position'>
-                <Text style={styles.signUpLabel}>Регистрация</Text>
-                <View>
-                  <View style={styles.signUpForm}>
-                    <View style={styles.signUpInput}>
-                      <Text style={styles.signUpInputLabel}>Имя</Text>
-                      <Input
-                        placeholder='Гарри'
-                        onChangeText={this.onFirstNameChange.bind(this)}
-                        value={this.props.value}
-                        textStyle={styles.inputFormText}
-                      />
-                    </View>
+          <Animated.View style={{flex:1}}>
+            <KeyboardAvoidingView behavior='padding'>
+              <Text style={styles.signUpLabel}>Регистрация</Text>
 
-                    <View style={styles.signUpInput}>
-                      <Text style={styles.signUpInputLabel}>Фамилия</Text>
-                      <Input
-                        placeholder='Поттер'
-                        onChangeText={this.onLastNameChange.bind(this)}
-                        value={this.props.value}
-                        textStyle={styles.inputFormText}
-                      />
-                    </View>
+              <View style={styles.signUpForm}>
+                <View style={styles.signUpInput}>
+                  <Text style={styles.signUpInputLabel}>Имя</Text>
+                  <Input
+                    placeholder='Гарри'
+                    onChangeText={this.onFirstNameChange.bind(this)}
+                    value={this.props.value}
+                    textStyle={styles.inputFormText}
+                  />
+                </View>
 
-                    <View style={styles.signUpInput}>
-                      <Text style={styles.signUpInputLabel}>Электроная Почта</Text>
-                      <Input
-                        placeholder='example@domain.com'
-                        onChangeText={this.onEmailChange.bind(this)}
-                        value={this.props.value}
-                        textStyle={styles.inputFormText}
-                      />
-                    </View>
+                <View style={styles.signUpInput}>
+                  <Text style={styles.signUpInputLabel}>Фамилия</Text>
+                  <Input
+                    placeholder='Поттер'
+                    onChangeText={this.onLastNameChange.bind(this)}
+                    value={this.props.value}
+                    textStyle={styles.inputFormText}
+                  />
+                </View>
 
-                    <View style={styles.signUpInput}>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.signUpInputLabel}>Пароль</Text>
-                        <Text style={styles.passwordConstraint}>не менее 6 символов</Text>
-                      </View>
-                      <Input
-                        secureTextEntry
-                        placeholder='Введите ваш пароль'
-                        onChangeText={this.onPasswordChange.bind(this)}
-                        value={this.props.password}
-                        textStyle={styles.inputFormText}
-                      />
-                    </View>
+                <View style={styles.signUpInput}>
+                  <Text style={styles.signUpInputLabel}>Электроная Почта</Text>
+                  <Input
+                    placeholder='example@domain.com'
+                    onChangeText={this.onEmailChange.bind(this)}
+                    value={this.props.value}
+                    textStyle={styles.inputFormText}
+                  />
+                </View>
 
-                    <View style={styles.signUpInput}>
-                      <Text style={styles.signUpInputLabel}>Подтвердите пароль</Text>
-                      <Input
-                        secureTextEntry
-                        placeholder='Введите пароль еще раз'
-                        onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
-                        value={this.state.confirmPassword}
-                        textStyle={styles.inputFormText}
-                      />
-                    </View>
+                <View style={styles.signUpInput}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.signUpInputLabel}>Пароль</Text>
+                    <Text style={styles.passwordConstraint}>не менее 6 символов</Text>
                   </View>
+                  <Input
+                    secureTextEntry
+                    placeholder='Введите ваш пароль'
+                    onChangeText={this.onPasswordChange.bind(this)}
+                    value={this.props.password}
+                    textStyle={styles.inputFormText}
+                  />
+                </View>
 
-                  <View>{this.renderButton()}</View>
+                <View style={styles.signUpInput}>
+                  <Text style={styles.signUpInputLabel}>Подтвердите пароль</Text>
+                  <Input
+                    secureTextEntry
+                    placeholder='Введите пароль еще раз'
+                    onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+                    value={this.state.confirmPassword}
+                    textStyle={styles.inputFormText}
+                  />
                 </View>
-              </KeyboardAvoidingView>
-              <View style={styles.bottomArea}>
-                <View style={styles.haveAccArea}>
-                  <Text style={styles.haveAccQuestion}>Уже есть аккаунт? </Text>
-                  <TouchableOpacity onPress={() => Actions.pop()}>
-                    <Text style={styles.enterText}>Войти</Text>
-                  </TouchableOpacity>
-                </View>
+              </View>
+
+              <View>{this.renderButton()}</View>
+            </KeyboardAvoidingView>
+
+            <View style={styles.bottomArea}>
+              <View style={styles.haveAccArea}>
+                <Text style={styles.haveAccQuestion}>Уже есть аккаунт? </Text>
+                <TouchableOpacity onPress={() => Actions.login()}>
+                  <Text style={styles.enterText}>Войти</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </Animated.View>
@@ -198,13 +194,8 @@ const styles = StyleSheet.create({
     color: 'red',
     alignSelf: 'center',
   },
-  mainView: {
-    height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
-    backgroundColor: '#fff',
-  },
   createAccButton: {
-    width: SCREEN_WIDTH * 0.75,
+    width: SCREEN_WIDTH * 0.77,
     borderWidth: 0.6,
     borderColor: 'transparent',
     backgroundColor: '#2AD2AC',
@@ -229,12 +220,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   signUpInput: {
-    marginVertical: 15
+    marginVertical: 0
   },
   signUpInputLabel: {
     alignSelf: 'flex-start',
     fontSize: 15,
-    color: '#000'
+    color: '#000',
   },
   passwordConstraint: {
     marginLeft: 20,
@@ -244,13 +235,13 @@ const styles = StyleSheet.create({
   bottomArea: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1
+    flex: 1,
   },
   haveAccArea: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   haveAccQuestion: {
     color: '#727272',
@@ -263,7 +254,9 @@ const styles = StyleSheet.create({
   },
   inputFormText: {
     width: SCREEN_WIDTH * 0.77,
-  }
+    textAlign: 'left',
+    paddingLeft: 0
+  },
 });
 
 const mapStateToProps = ({ auth }) => {
