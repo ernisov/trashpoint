@@ -16,3 +16,5 @@ export const MESSAGE = 'message';
 export const NOTVERIFIED = 'notverified';
 
 export const SEND_MARKER = 'send_makrer';
+export const IMAGE_SHOT = 'image_shot';
+export const CAMERA = 'camera';
