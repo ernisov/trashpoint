@@ -15,25 +15,15 @@ const LanguageChange = () => {
     <Screen>
       <TouchableOpacity>
         <Section style={styles.languageArea}>
-          <Text style={styles.languageText}>
-            Кыргызча
-          </Text>
-        </Section>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Section style={styles.languageArea}>
-          <Text style={styles.languageText}>
-            English
-          </Text>
-        </Section>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Section style={styles.languageArea}>
           <Text style={styles.chosenLanguageText}>
             Русский
           </Text>
         </Section>
       </TouchableOpacity>
+
+      <Text style={styles.infoTemporaryText}>
+        Работаем над добавлением других языков
+      </Text>
     </Screen>
   );
 };
@@ -60,6 +50,13 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: '#4c4c4c',
     fontWeight: 'bold'
+  },
+  infoTemporaryText: {
+    marginTop: 20,
+    alignSelf: 'center',
+    fontStyle: 'italic',
+    fontSize: 17,
+    color: '#4c4c4c',
   }
 });
 

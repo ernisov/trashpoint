@@ -111,51 +111,54 @@ class LoginForm extends Component {
     }
 
       return (
-        <Animated.View style={styles.animatedView}>
-          <Screen>
+        <Screen>
+          <Animated.View style={styles.animatedView}>
 
-            <KeyboardAvoidingView behavior='position'>
-              <Image
-                source={require('../../assets/logo.png')}
-                style={styles.logo}
+          <KeyboardAvoidingView behavior='position'>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.logo}
+            />
+
+            <View style={styles.inputSection}>
+              <Input
+                placeholder='Ваша почта'
+                onChangeText={this.onEmailChange.bind(this)}
+                value={this.props.email}
+                textStyle={styles.inputFormText}
               />
-              <View style={styles.inputSection}>
-                <Input
-                  placeholder='Ваша почта'
-                  onChangeText={this.onEmailChange.bind(this)}
-                  value={this.props.email}
-                  textStyle={styles.inputFormText}
-                />
-                <Input
-                  placeholder='Пароль'
-                  onChangeText={this.onPasswordChange.bind(this)}
-                  value={this.props.password}
-                  secureTextEntry
-                  textStyle={styles.inputFormText}
-                />
-              </View>
-              <View>{this.renderButton()}</View>
-            </KeyboardAvoidingView>
+              <Input
+                placeholder='Пароль'
+                onChangeText={this.onPasswordChange.bind(this)}
+                value={this.props.password}
+                secureTextEntry
+                textStyle={styles.inputFormText}
+              />
+            </View>
 
-              <View style={styles.bottomArea}>
+            <View>{this.renderButton()}</View>
+          </KeyboardAvoidingView>
+
+            <View style={styles.bottomArea}>
+              <View style={styles.forgotPasswordArea}>
                 <Text style={styles.forgotPasswordQuestion}>Забыли пароль?</Text>
-
-                <View style={styles.orArea}>
-                  <View style={styles.orLineLeft} />
-                  <Text style={styles.orText}>или</Text>
-                  <View style={styles.orLineRight} />
-                </View>
-
-                <View style={styles.dontHaveAccArea}>
-                  <Text style={styles.dontHaveAcc}>Еще нет аккаунта? </Text>
-                  <TouchableOpacity onPress={() => Actions.register()} >
-                    <Text style={styles.registerButton}>Зарегистрироваться</Text>
-                  </TouchableOpacity>
-                </View>
               </View>
 
-          </Screen>
-        </Animated.View>
+              <View style={styles.orArea}>
+                <View style={styles.orLineLeft} />
+                <Text style={styles.orText}>или</Text>
+                <View style={styles.orLineRight} />
+              </View>
+
+              <View style={styles.dontHaveAccArea}>
+                <Text style={styles.dontHaveAcc}>Еще нет аккаунта? </Text>
+                <TouchableOpacity onPress={() => Actions.register()} >
+                  <Text style={styles.registerButton}>Зарегистрироваться</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Animated.View>
+        </Screen>
       );
   }
 }
@@ -190,6 +193,31 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 20,
   },
+  registerButton: {
+    color: '#2AD2AC',
+    fontSize: 15,
+    textDecorationLine: 'underline',
+  },
+  bottomArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  forgotPasswordArea: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  forgotPasswordQuestion: {
+    color: '#2AD2AC',
+    fontSize: 15,
+  },
+  orArea: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   orLineLeft: {
     height: 1,
     marginRight: 10,
@@ -208,37 +236,15 @@ const styles = StyleSheet.create({
     color: '#727272',
     fontSize: 13,
   },
+  dontHaveAccArea: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
   dontHaveAcc: {
     color: '#727272',
     fontSize: 13,
-  },
-  registerButton: {
-    color: '#2AD2AC',
-    fontSize: 15,
-    textDecorationLine: 'underline',
-  },
-  forgotPasswordQuestion: {
-    color: '#2AD2AC',
-    fontSize: 15,
-  },
-  bottomArea: {
-    marginTop: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  orArea: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  dontHaveAccArea: {
-    flex: 1,
-    marginBottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   inputFormText: {
     width: SCREEN_WIDTH * 0.77

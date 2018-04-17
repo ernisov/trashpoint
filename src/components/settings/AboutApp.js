@@ -9,8 +9,9 @@ const AboutApp = () => {
   return (
     <Screen>
       <View style={styles.main}>
-        <Text>Taza Jashoo v0.0.1</Text>
-        <Text>Все права защищены</Text>
+        <Text style={styles.languageText}>
+          Taza Jashoo v0.0.1
+        </Text>
       </View>
     </Screen>
   );
@@ -18,7 +19,14 @@ const AboutApp = () => {
 
 const styles = StyleSheet.create({
   main: {
-    alignItems: 'center'
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  languageText: {
+    alignSelf: 'center',
+    fontSize: 21,
+    color: '#4c4c4c',
   }
 });
 

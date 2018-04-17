@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { GREEN } from '../variables';
+import {GREEN, SCREEN_WIDTH} from '../variables';
 import Icon from 'react-native-vector-icons/Feather';
 import { userNameFetch } from '../actions';
 
@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
   },
   userLeftArea: {
     justifyContent: 'space-around',
+    maxWidth: SCREEN_WIDTH,
+    flex: 1,
+    marginRight: 10
   },
   userName: {
     fontSize: 32,
