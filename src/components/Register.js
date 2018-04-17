@@ -14,6 +14,8 @@ import firebase from 'firebase';
 import {
   emailChanged,
   passwordChanged,
+  firstNameChanged,
+  lastNameChanged,
   registerUser,
 } from '../actions';
 
@@ -42,20 +44,25 @@ class Register extends Component {
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
+
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
-  onButtonPress() {
-    const { email, password } = this.props;
-    this.props.registeruser({ email, password });
+
+  onFirstNameChange(text) {
+    this.props.firstNameChanged(text)
+  }
+
+  onLastNameChange(text) {
+    this.props.lastNameChanged(text)
   }
 
   submitToFirebase() {
     this.setState({ loading: true });
     const { confirmPassword } = this.state;
-    const { email, password } = this.props;
+    const { email, password, firstName, lastName } = this.props;
 
-    if (email === '' || password === '') {
+    if (email === '' || password === '' || firstName === '' || lastName === '') {
       Alert.alert(
         'Ошибка ввода',
         'Пожалуйста заполните все поля',
@@ -72,7 +79,7 @@ class Register extends Component {
         ]
       );
     } else {
-      this.props.registerUser({ email, password });
+      this.props.registerUser({ email, password, firstName, lastName });
     }
 
     this.setState({ loading: false });
@@ -111,13 +118,35 @@ class Register extends Component {
                 <View>
                   <View style={styles.signUpForm}>
                     <View style={styles.signUpInput}>
+                      <Text style={styles.signUpInputLabel}>Имя</Text>
+                      <Input
+                        placeholder='Гарри'
+                        onChangeText={this.onFirstNameChange.bind(this)}
+                        value={this.props.value}
+                        textStyle={styles.inputFormText}
+                      />
+                    </View>
+
+                    <View style={styles.signUpInput}>
+                      <Text style={styles.signUpInputLabel}>Фамилия</Text>
+                      <Input
+                        placeholder='Поттер'
+                        onChangeText={this.onLastNameChange.bind(this)}
+                        value={this.props.value}
+                        textStyle={styles.inputFormText}
+                      />
+                    </View>
+
+                    <View style={styles.signUpInput}>
                       <Text style={styles.signUpInputLabel}>Электроная Почта</Text>
                       <Input
                         placeholder='example@domain.com'
                         onChangeText={this.onEmailChange.bind(this)}
                         value={this.props.value}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
+
                     <View style={styles.signUpInput}>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.signUpInputLabel}>Пароль</Text>
@@ -128,8 +157,10 @@ class Register extends Component {
                         placeholder='Введите ваш пароль'
                         onChangeText={this.onPasswordChange.bind(this)}
                         value={this.props.password}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
+
                     <View style={styles.signUpInput}>
                       <Text style={styles.signUpInputLabel}>Подтвердите пароль</Text>
                       <Input
@@ -137,6 +168,7 @@ class Register extends Component {
                         placeholder='Введите пароль еще раз'
                         onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
                         value={this.state.confirmPassword}
+                        textStyle={styles.inputFormText}
                       />
                     </View>
                   </View>
@@ -228,14 +260,17 @@ const styles = StyleSheet.create({
     color: '#2AD2AC',
     fontSize: 17,
     textDecorationLine: 'underline'
+  },
+  inputFormText: {
+    width: SCREEN_WIDTH * 0.77,
   }
 });
 
 const mapStateToProps = ({ auth }) => {
-    const { email, password, error, loading, sent } = auth;
-    return { email, password, error, loading, sent };
+  const { email, password, firstName, lastName, error, loading, sent } = auth;
+  return { email, password, firstName, lastName, error, loading, sent };
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, registerUser,
+  emailChanged, passwordChanged, registerUser, firstNameChanged, lastNameChanged
 })(Register);

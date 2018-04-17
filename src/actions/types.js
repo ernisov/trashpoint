@@ -14,6 +14,9 @@ export const LOGOUT_USER = 'logout_user';
 export const ERROR_SHOWED = 'error_showed';
 export const MESSAGE = 'message';
 export const NOTVERIFIED = 'notverified';
+export const FIRST_NAME_CHANGED = 'first_name_changed';
+export const LAST_NAME_CHANGED = 'last_name_changed';
+export const NAME_FETCH_SUCCESS = 'name_fetch_success';
 
 export const SEND_MARKER = 'send_makrer';
 export const IMAGE_SHOT = 'image_shot';
