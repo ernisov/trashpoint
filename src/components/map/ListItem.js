@@ -11,7 +11,8 @@ import { GREEN, YELLOW, RED } from '../../variables';
 
 class ListItemComponent extends Component {
   onItemPressed() {
-    Actions.MarkerDetails(this.props.item);
+    const marker = this.props.item;
+    Actions.MarkerDetails({ marker });
   }
 
   printText(status) {
@@ -39,7 +40,7 @@ class ListItemComponent extends Component {
     };
 
     return (
-      <TouchableHighlight onPress={this.onItemPressed()} underlayColor='#f7f7f7'>
+      <TouchableHighlight onPress={this.onItemPressed.bind(this)} underlayColor='#f7f7f7'>
         <View style={styles.container}>
           <View style={styles.imageBlock}>
             <Image

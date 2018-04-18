@@ -51,8 +51,9 @@ class RouterComponent extends Component {
               key='login'
               component={LoginForm}
               initial={this.state.user === '0'}
+              hideNavBar
             />
-            <Scene key='register' component={Register} />
+            <Scene key='register' component={Register} hideNavBar />
           </Scene>
 
 

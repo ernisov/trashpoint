@@ -5,7 +5,8 @@ import { Marker } from 'react-native-maps';
 
 class CustomMarker extends Component {
   onMarkerPress() {
-    Actions.MarkerDetails(this.props.marker);
+    const marker = this.props.marker;
+    Actions.MarkerDetails({ marker });
   }
 
   assignStatusStyles(status) {
@@ -27,12 +28,11 @@ class CustomMarker extends Component {
 
 
   render() {
-    console.log(this.props.marker);
     const { coords, status } = this.props.marker;
     return (
         <Marker
           coordinate={coords}
-          onPress={!disabled ? this.onMarkerPress.bind(this) : null}
+          onPress={!this.props.disabled ? this.onMarkerPress.bind(this) : null}
         >
           <View style={this.assignStatusStyles(status)}/>
         </Marker>

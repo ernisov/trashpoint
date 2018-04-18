@@ -66,6 +66,14 @@ class AddMarker extends Component {
   }
 
   renderMap() {
+    const marker = {
+      coords : {
+        latitude: this.props.latlng.latitude,
+        longitude: this.props.latlng.longitude,
+      },
+      status: this.props.status,
+    };
+
     return (
       <MapView
         style={styles.map}
@@ -74,11 +82,7 @@ class AddMarker extends Component {
         rotateEnabled={false}
       >
         <Marker
-          coordinate={{
-            latitude: this.props.latlng.latitude,
-            longitude: this.props.latlng.longitude,
-          }}
-          status={this.props.status}
+          marker={marker}
           disabled
         />
       </MapView>

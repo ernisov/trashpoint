@@ -164,6 +164,42 @@ export const sendMarker = ({ amount, authorID, latlng, address, imageURI, status
   };
 };
 
+export const toYellow = ({ authorID, markerID, imageURI, address }) => {
+  return (dispatch) => {
+    const { uid } = firebase.auth().currentUser;
+    firebase.database().ref(`/markers/${authorID}/${markerID}`).update({
+      status: 'yellow',
+      contributorsID: [uid]
+    });
+
+    firebase.database().ref(`/contributions`).child(`${uid}`).push().set({
+      authorID: authorID,
+      markerID: markerID,
+      imageURI: imageURI,
+      address: address,
+      type: 'toYellow',
+    });
+  };
+};
+
+export const toGreen = ({ authorID, markerID, imageURI, address }) => {
+  return (dispatch) => {
+    const { uid } = firebase.auth().currentUser;
+    firebase.database().ref(`/markers/${authorID}/${markerID}`).update({
+      status: 'green',
+      contributorsID: [uid]
+    });
+
+    firebase.database().ref(`/contributions`).child(`${uid}`).push().set({
+      authorID: authorID,
+      markerID: markerID,
+      imageURI: imageURI,
+      address: address,
+      type: 'toGreen',
+    });
+  };
+};
+
 export const amountChanged = (value)=> {
   return { type: AMOUNT_CHANGED, payload: value };
 };

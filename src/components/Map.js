@@ -14,10 +14,6 @@ import {
 } from './map';
 
 class Map extends Component {
-  componentWillMount() {
-    this.props.getMarkers();
-  }
-
   componentDidMount() {
     const options = {
       enableHighAccuracy: true,
@@ -27,6 +23,8 @@ class Map extends Component {
     this.watchId = navigator.geolocation.watchPosition((position) => {
       this.props.positionChanged(position);
     }, (err) => console.log(err), options);
+
+    this.props.getMarkers();
   }
 
   componentWillUnmount() {
@@ -108,13 +106,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { position, isList } = state.map;
-  const markers = _.map(state.map.markers, (marker, id) => {
-    return { ...marker, id };
-  });
-
-  console.log('map:  ', markers);
-
+  const { position, isList, markers } = state.map;
+  console.log(markers);
   return { position, markers, isList };
 };
 
