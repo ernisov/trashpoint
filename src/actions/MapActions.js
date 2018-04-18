@@ -1,10 +1,9 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 import {
     POSITION_CHANGED,
     GET_MARKERS,
-    SHOW_MARKER_DETAILS,
-    MARKER_PRESSED,
     MAP_SWITCH,
 } from './types';
 import {
@@ -32,13 +31,11 @@ export const positionChanged = (position) => {
 
 export const getMarkers = () => {
     return (dispatch) => {
-        firebase.database().ref('/markers').on('value', (snapshot) => {
+        firebase.database().ref(`/markers`).on('value', (snapshot) => {
+            const markers = _.map(snapshot.val(), (value, id) => {
+              return [...value];
+            });
             dispatch({ type: GET_MARKERS, payload: snapshot.val() });
         });
     };
-};
-
-export const onMarkerPressed = (props) => {
-    Actions.markerDetails({ title: props.address, ...props });
-    return { type: MARKER_PRESSED };
 };

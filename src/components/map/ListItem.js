@@ -6,21 +6,12 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { onMarkerPressed } from '../../actions';
+import { Actions } from 'react-native-router-flux';
 import { GREEN, YELLOW, RED } from '../../variables';
 
-class ListItem extends Component {
+class ListItemComponent extends Component {
   onItemPressed() {
-    const params = {
-      id: this.props.item.id,
-      coordinate: this.props.item.latlng,
-      status: this.props.item.status,
-      address: this.props.item.address,
-      amount: this.props.item.amount,
-      imageURI: this.props.item.imageURI,
-    };
-    return this.props.onMarkerPressed.bind(this, params);
+    Actions.MarkerDetails(this.props.item);
   }
 
   printText(status) {
@@ -53,7 +44,7 @@ class ListItem extends Component {
           <View style={styles.imageBlock}>
             <Image
               style={styles.image}
-              source={{ uri: imageURI }}
+              source={{ uri: imageURI[0] }}
             />
           </View>
           <View style={styles.textBlock}>
@@ -130,4 +121,4 @@ const styles = StyleSheet.create({
 });
 
 
-export const ListItemComponent = connect(null, { onMarkerPressed })(ListItem);
+export { ListItemComponent };

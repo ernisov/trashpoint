@@ -12,6 +12,7 @@ import Settings from './components/Settings';
 import TabIcon from './components/TabIcon';
 import LoginForm from './components/LoginForm';
 import Register from './components/Register';
+import MarkerDetails from './components/MarkerDetails';
 import Profile from './components/settings/Profile';
 import {
   NotificationSettings,
@@ -69,7 +70,7 @@ class RouterComponent extends Component {
             <Scene
               key='mapScreen'
               title='Map'
-              iconName='map'
+              iconName={this.props.isList ? 'list' : 'map'}
               icon={TabIcon}
               hideNavBar
             >
@@ -120,6 +121,7 @@ class RouterComponent extends Component {
           </Scene>
 
           <Scene key='marker' component={AddMarker} />
+          <Scene key='MarkerDetails' component={MarkerDetails} />
 
           {/* SETTINGS */}
           <Scene
@@ -166,4 +168,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { imageButton })(RouterComponent);
+const mapStateToProps = (state) => {
+  const { isList } = state.map;
+
+  return { isList };
+};
+
+export default connect(mapStateToProps, { imageButton })(RouterComponent);
