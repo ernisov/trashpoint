@@ -23,3 +23,6 @@ export const IMAGE_SHOT = 'image_shot';
 export const CAMERA = 'camera';
 export const POSITION_ACQUIRED = 'position_acquired';
 export const AMOUNT_CHANGED = 'amount_changed';
+
+export const CONTRIBUTIONS_FETCH = 'contributions_fetch';
+export const MARKERS_FETCH = 'markers_fetch';
