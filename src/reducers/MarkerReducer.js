@@ -27,6 +27,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SEND_MARKER:
+      return INITIAL_STATE;
     case AMOUNT_CHANGED:
       return { ...state, amount: action.payload };
     case POSITION_ACQUIRED:
@@ -34,7 +36,7 @@ export default (state = INITIAL_STATE, action) => {
     case CAMERA:
       return { ...state, loading: true };
     case IMAGE_SHOT:
-      return { ...state, imageURI: [...state.imageURI, action.payload], loading: false };
+      return { ...state, imageURI: [action.payload, ...state.imageURI], loading: false };
     default:
       return state;
   }

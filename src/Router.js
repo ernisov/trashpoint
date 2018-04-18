@@ -18,7 +18,11 @@ import {
   LanguageChange,
   ProblemReport,
   AboutApp
-} from './components/settings';
+} from './components/settings/index';
+
+import {
+  imageButton,
+} from './actions';
 
 class RouterComponent extends Component {
   constructor(props) {
@@ -50,7 +54,7 @@ class RouterComponent extends Component {
             <Scene key='register' component={Register} />
           </Scene>
 
-          {/* TAB BAR */}
+
           <Scene
             key='tabBar'
             tabBarStyle={styles.tabBar}
@@ -87,9 +91,10 @@ class RouterComponent extends Component {
               title='Add Marker'
               iconName='plus-square'
               icon={TabIcon}
+              tabBarOnPress={this.props.imageButton.bind(this)}
               hideNavBar
             >
-              <Scene key='addMarker' component={AddMarker} initial/>
+              <Scene key='addMarker' component={AddMarker} />
             </Scene>
 
             <Scene
@@ -113,7 +118,8 @@ class RouterComponent extends Component {
             </Scene>
 
           </Scene>
-          {/* TAB BAR END */}
+
+          <Scene key='marker' component={AddMarker} />
 
           {/* SETTINGS */}
           <Scene
@@ -160,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null)(RouterComponent);
+export default connect(null, { imageButton })(RouterComponent);

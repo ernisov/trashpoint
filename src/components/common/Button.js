@@ -34,6 +34,11 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#00C79B60',
+    width: 150,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
 
