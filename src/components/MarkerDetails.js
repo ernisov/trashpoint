@@ -14,6 +14,7 @@ import { Spinner, Button } from './common';
 import { Marker } from './map/index';
 import { toYellow, toGreen } from '../actions';
 import { Actions } from 'react-native-router-flux';
+import Picture from './common/Picture';
 
 import {
   SCREEN_HEIGHT,
@@ -22,6 +23,10 @@ import {
 } from '../variables';
 
 class MarkerDetails extends Component {
+  onImagePress() {
+    this.setState({ imageVisible: !this.state.imageVisible });
+  }
+
   toYellow() {
     const info = {
       authorID: this.props.marker.authorID,
@@ -102,7 +107,13 @@ class MarkerDetails extends Component {
 
   renderImages() {
     return this.props.marker.imageURI.map(value => {
-      return <Image key={value} style={styles.image} source={{ uri: value }} />;
+      return (
+        <Picture
+          key={value}
+          style={styles.image}
+          source={{ uri: value }}
+        />
+      );
     });
   }
 
@@ -140,21 +151,23 @@ class MarkerDetails extends Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {this.renderMap()}
-        <View style={styles.section}>
-          <Text style={styles.h2}>{address}</Text>
-          <Text style={styles.smallText}>{coords.latitude + ' | ' + coords.longitude}</Text>
+        <View style={styles.wrapper}>
+          <View style={styles.section}>
+            <Text style={styles.h2}>{address}</Text>
+            <Text style={styles.smallText}>{coords.latitude + ' | ' + coords.longitude}</Text>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.h2}>Количество Мусора</Text>
+            {this.renderAmount()}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.h2}>Фотографии</Text>
+            <ScrollView horizontal contentContainerStyle={styles.images}>
+              {this.renderImages()}
+            </ScrollView>
+          </View>
+            {this.renderButton()}
         </View>
-        <View style={styles.section}>
-          <Text style={styles.h2}>Количество Мусора</Text>
-          {this.renderAmount()}
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.h2}>Фотографии</Text>
-          <ScrollView horizontal contentContainerStyle={styles.images}>
-            {this.renderImages()}
-          </ScrollView>
-        </View>
-          {this.renderButton()}
       </ScrollView>  
     );
   }
@@ -173,8 +186,7 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
     borderColor: '#eee',
     alignSelf: 'stretch',
   },
@@ -204,11 +216,16 @@ const styles = StyleSheet.create({
   },
   image: {
     marginHorizontal: 5,
+    borderRadius: 5,
     height: 150,
     width: 150,
   },
   button: {
     width: SCREEN_WIDTH * 0.75,
+    borderRadius: 5,
+  },
+  wrapper: {
+    paddingHorizontal: 15,
   }
 });
 
