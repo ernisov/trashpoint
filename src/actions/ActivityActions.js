@@ -20,13 +20,11 @@ export const dataset = () => {
         return { ...val, id };
       });
       data = [ ...data, ...contributions ];
-      data = data.sort(markers, contributions) {
-        if (markers.timestamp < contributions.timestamp)
-          return -1;
-        if (markers.timestamp > contributions.timestamp)
-          return 1;
-        else return 0;
-      }
+      data = data.sort((a, b) => {
+        if (a.timestamp < b.timestamp) return 1;
+        if (a.timestamp > b.timestamp) return -1;
+        return 0;
+      });
       dispatch({ type: DATA, payload: data })
     });
   }

@@ -15,15 +15,10 @@ class Activity extends Component {
     this.props.dataset();
   }
 
-  // renderRow(marker) {
-  //   return <MarkerItem marker={marker} />;
-  // }
-
   render() {
     console.log(this.props);
     return(
       <Screen scrollable style={{flex: 1}}>
-        <Text>asdf</Text>
         <FlatList
           data={this.props.data}
           renderItem={({ item }) => (
