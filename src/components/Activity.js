@@ -2,8 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { markersFetch, contributionsFetch } from '../actions';
-import { MarkerItem } from './activity';
+import { dataset } from '../actions';
+import { MarkerItem } from './activities';
 
 // Components Import
 import {
@@ -11,9 +11,8 @@ import {
 } from './common';
 
 class Activity extends Component {
-  componentWillMount() {
-    this.props.markersFetch();
-    this.props.contributionsFetch();
+  componentDidMount() {
+    this.props.dataset();
   }
 
   // renderRow(marker) {
@@ -21,15 +20,16 @@ class Activity extends Component {
   // }
 
   render() {
+    console.log(this.props);
     return(
       <Screen scrollable style={{flex: 1}}>
         <Text>asdf</Text>
         <FlatList
-          data={this.props.activities}
-          renderItem={({ marker }) => (
-            <MarkerItem marker={marker} />
+          data={this.props.data}
+          renderItem={({ item }) => (
+            <MarkerItem item={item} />
           )}
-          keyExtractor = {(marker) => marker.id}
+          keyExtractor = {(item) => item.id}
         />
       </Screen>
     )
@@ -41,11 +41,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const activities = _.map(state.activity, (val, uid) => {
-    return { ...val, uid };
-  });
-
-  return { activities }
+  const { data } = state.activity;
+  return { data };
 };
 
-export default connect(mapStateToProps, { markersFetch, contributionsFetch })(Activity);
+export default connect(mapStateToProps, { dataset })(Activity);
