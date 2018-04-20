@@ -180,6 +180,7 @@ export const toYellow = ({ authorID, markerID, imageURI, address }) => {
       imageURI: imageURI,
       address: address,
       type: 'toYellow',
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
     }).then(() => {
       firebase.database().ref(`/markers`).on('value', (snapshot) => {
         const marks = snapshot.val();
@@ -211,6 +212,7 @@ export const toGreen = ({ authorID, markerID, imageURI, address }) => {
       imageURI: imageURI,
       address: address,
       type: 'toGreen',
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
     }).then(() => {
       firebase.database().ref(`/markers`).on('value', (snapshot) => {
         const marks = snapshot.val();
