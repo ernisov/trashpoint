@@ -16,7 +16,6 @@ class Activity extends Component {
   }
 
   render() {
-    console.log(this.props);
     return(
       <Screen scrollable style={{flex: 1}}>
         <FlatList

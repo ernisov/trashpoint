@@ -18,6 +18,8 @@ import {
   ASPECT_RATIO,
 } from '../variables';
 
+Geocoder.fallbackToGoogle('AIzaSyDXYc4ri_FDgqCY8mafUbwPvbH3Rnl9Tf4');
+
 export const getImage = () => {
     return (dispatch) => {
       ImagePicker.openCamera({

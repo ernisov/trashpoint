@@ -80,10 +80,9 @@ class RouterComponent extends Component {
 
             <Scene
               key='activityScreen'
-              title='activity'
+              title='Мои действия'
               iconName='zap'
               icon={TabIcon}
-              hideNavBar
             >
               <Scene key='activity' component={Activity} />
             </Scene>
