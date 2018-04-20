@@ -1,50 +1,34 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { Marker } from 'react-native-maps';
-import { onMarkerPressed } from '../../actions';
 
-
-class MarkerComponent extends Component {
+class CustomMarker extends Component {
   onMarkerPress() {
-    const params = {
-      id: this.props.markerId,
-      coordinate: this.props.coordinate,
-      status: this.props.status,
-      address: this.props.address,
-      amount: this.props.amount,
-      imageURI: this.props.imageURI,
-    };
-    return this.props.onMarkerPressed.bind(this, params);
+    const marker = this.props.marker;
+    Actions.MarkerDetails({ marker });
   }
-
-  assignStatusStyles(status) {
-    let markerStyle = null;
-
-    switch (status) {
-      case 'red':
-        markerStyle = styles.redMarker;
-        break;
-      case 'yellow':
-        markerStyle = styles.yellowMarker;
-        break;
-      default:
-        markerStyle = styles.greenMarker;
-    }
-
-    return markerStyle;
-  }
-
 
   render() {
-    const { markerId, coordinate, status } = this.props;
+    const { coords, status } = this.props.marker;
+    const renderCircle = (status) => {
+      console.log('status: ', status);
+      switch (status) {
+        case 'red':
+          return <View style={styles.redMarker} />;
+        case 'yellow':
+          return <View style={styles.yellowMarker} />;
+        default:
+          return <View style={styles.greenMarker} />;
+      }
+    };
 
     return (
         <Marker
-          coordinate={coordinate}
-          onPress={!this.props.disabled ? this.onMarkerPress() : null}
+          coordinate={coords}
+          onPress={!this.props.disabled ? this.onMarkerPress.bind(this) : null}
         >
-          <View style={this.assignStatusStyles(status)}/>
+          {renderCircle(status)}
         </Marker>
     );
   }
@@ -74,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export const CustomMarker = connect(null, { onMarkerPressed })(MarkerComponent);
+export { CustomMarker };

@@ -9,19 +9,23 @@ import {
   Image,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import SvgUri from 'react-native-svg-uri';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Feather';
+import { Spinner, Button } from './common';
 import { Marker } from './map/index';
+import Picture from './common/Picture';
 
 import {
   getImage,
   camera,
   positionAcquired,
   amountChanged,
+  sendMarker,
 } from '../actions';
 
 import {
   SCREEN_HEIGHT,
+  SCREEN_WIDTH,
 } from '../variables';
 
 class AddMarker extends Component {
@@ -37,11 +41,40 @@ class AddMarker extends Component {
   }
 
   onButtonPress() {
-
+    this.props.camera();
     this.props.getImage();
   }
 
+  onSubmit() {
+    const {
+      authorID,
+      address,
+      amount,
+      latlng,
+      imageURI,
+      status
+    } = this.props;
+
+    const props = {
+      authorID,
+      address,
+      amount,
+      latlng,
+      imageURI,
+      status
+    };
+    this.props.sendMarker(props);
+  }
+
   renderMap() {
+    const marker = {
+      coords : {
+        latitude: this.props.latlng.latitude,
+        longitude: this.props.latlng.longitude,
+      },
+      status: this.props.status,
+    };
+
     return (
       <MapView
         style={styles.map}
@@ -50,11 +83,7 @@ class AddMarker extends Component {
         rotateEnabled={false}
       >
         <Marker
-          coordinate={{
-            latitude: this.props.latlng.latitude,
-            longitude: this.props.latlng.longitude,
-          }}
-          status={this.props.status}
+          marker={marker}
           disabled
         />
       </MapView>
@@ -64,19 +93,25 @@ class AddMarker extends Component {
   renderIcon() {
     switch (this.props.amount) {
       case 1:
-        return require('../../assets/icons/0.svg');
+        return <Image style={styles.icon} source={require('../../assets/icons/0.png')} />;
       case 2:
-        return require('../../assets/icons/25.svg');
+        return <Image style={styles.icon} source={require('../../assets/icons/25.png')} />;
       case 3:
-        return require('../../assets/icons/75.svg');
+        return <Image style={styles.icon} source={require('../../assets/icons/75.png')} />;
       default:
-        return require('../../assets/icons/100.svg');
+        return <Image style={styles.icon} source={require('../../assets/icons/100.png')} />;
     }
   }
 
   renderImages() {
     return this.props.imageURI.map(value => {
-      return <Image key={value} style={styles.image} source={{ uri: value }} />;
+      return (
+        <Picture
+          key={value}
+          style={styles.image}
+          source={{ uri: value }}
+        />
+      );
     });
   }
 
@@ -84,39 +119,45 @@ class AddMarker extends Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {this.renderMap()}
-        <View style={styles.section}>
-          <Text style={styles.h2}>{this.props.address}</Text>
-          <Text style={styles.smallText}>{this.props.latlng.latitude + ' | ' + this.props.latlng.longitude}</Text>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.h2}>Количество мусора</Text>
-          <View style={styles.row}>
-            <SvgUri
-              width='75'
-              height='75'
-              source={this.renderIcon()}
-            />
-            <Picker
-              selectedValue={this.props.amount}
-              style={styles.picker}
-              onValueChange={value => this.props.amountChanged(value)}
-              mode='dropdown'
-            >
-              <Picker.Item label='небольшая куча' value={1} />
-              <Picker.Item label='мешок' value={2} />
-              <Picker.Item label='воз' value={3} />
-              <Picker.Item label='грузовик' value={4} />
-            </Picker>
+        <View style={styles.wrapper}>
+          <View style={styles.section}>
+            <Text style={styles.h2}>{this.props.address}</Text>
+            <Text style={styles.smallText}>{this.props.latlng.latitude + ' | ' + this.props.latlng.longitude}</Text>
           </View>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.h2}>Фотографии</Text>
-          <ScrollView horizontal contentContainerStyle={styles.images}>
-            {this.renderImages()}
-          </ScrollView>
-          <TouchableOpacity onPress={this.onButtonPress.bind(this)}>
-            <Text>add photo</Text>
-          </TouchableOpacity>
+          <View style={styles.section}>
+            <Text style={styles.h2}>Количество мусора</Text>
+            <View style={styles.row}>
+              {this.renderIcon()}
+              <Picker
+                selectedValue={this.props.amount}
+                style={styles.picker}
+                onValueChange={value => this.props.amountChanged(value)}
+                mode='dropdown'
+              >
+                <Picker.Item label='небольшая куча' value={1} />
+                <Picker.Item label='мешок' value={2} />
+                <Picker.Item label='воз' value={3} />
+                <Picker.Item label='грузовик' value={4} />
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.h2}>Фотографии</Text>
+            <ScrollView horizontal contentContainerStyle={styles.images}>
+              <TouchableOpacity style={styles.addPhoto} onPress={this.onButtonPress.bind(this)}>
+                {this.props.loading ? <Spinner /> : <Icon name='plus' size={60} color='#ddd' />}
+              </TouchableOpacity>
+              {this.renderImages()}
+            </ScrollView>
+          </View>
+          <View style={styles.section}>
+            <Button
+              onPress={this.onSubmit.bind(this)}
+              disabled={this.props.loading}
+              text='Отправить'
+              style={styles.submit}
+            />
+          </View>
         </View>
       </ScrollView>
     );
@@ -138,9 +179,9 @@ const styles = StyleSheet.create({
   },
   section: {
     paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderWidth: 0.5,
+    borderBottomWidth: 0.5,
     borderColor: '#eee',
+    alignSelf: 'stretch',
   },
   row: {
     flexDirection: 'row',
@@ -160,10 +201,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   image: {
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     height: 150,
     width: 150,
+    borderRadius: 5,
   },
+  addPhoto: {
+    marginRight: 5,
+    width: 150,
+    height: 150,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  submit: {
+    width: SCREEN_WIDTH * 0.75,
+    borderRadius: 5,
+  },
+  icon: {
+    width: 65,
+    height: 65,
+    marginRight: 10,
+  },
+  wrapper: {
+    paddingHorizontal: 15,
+  }
 });
 
 const mapStateToProps = (state) => {
@@ -193,4 +257,5 @@ export default connect(mapStateToProps, {
   camera,
   positionAcquired,
   amountChanged,
+  sendMarker,
 })(AddMarker);

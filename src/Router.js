@@ -12,13 +12,18 @@ import Settings from './components/Settings';
 import TabIcon from './components/TabIcon';
 import LoginForm from './components/LoginForm';
 import Register from './components/Register';
+import MarkerDetails from './components/MarkerDetails';
 import Profile from './components/settings/Profile';
 import {
   NotificationSettings,
   LanguageChange,
   ProblemReport,
   AboutApp
-} from './components/settings';
+} from './components/settings/index';
+
+import {
+  imageButton,
+} from './actions';
 
 class RouterComponent extends Component {
   constructor(props) {
@@ -46,11 +51,12 @@ class RouterComponent extends Component {
               key='login'
               component={LoginForm}
               initial={this.state.user === '0'}
+              hideNavBar
             />
-            <Scene key='register' component={Register} />
+            <Scene key='register' component={Register} hideNavBar />
           </Scene>
 
-          {/* TAB BAR */}
+
           <Scene
             key='tabBar'
             tabBarStyle={styles.tabBar}
@@ -65,7 +71,7 @@ class RouterComponent extends Component {
             <Scene
               key='mapScreen'
               title='Map'
-              iconName='map'
+              iconName={this.props.isList ? 'list' : 'map'}
               icon={TabIcon}
               hideNavBar
             >
@@ -87,9 +93,10 @@ class RouterComponent extends Component {
               title='Add Marker'
               iconName='plus-square'
               icon={TabIcon}
+              tabBarOnPress={this.props.imageButton.bind(this)}
               hideNavBar
             >
-              <Scene key='addMarker' component={AddMarker} initial/>
+              <Scene key='addMarker' component={AddMarker} />
             </Scene>
 
             <Scene
@@ -113,7 +120,9 @@ class RouterComponent extends Component {
             </Scene>
 
           </Scene>
-          {/* TAB BAR END */}
+
+          <Scene key='marker' component={AddMarker} />
+          <Scene key='MarkerDetails' component={MarkerDetails} />
 
           {/* SETTINGS */}
           <Scene
@@ -160,4 +169,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null)(RouterComponent);
+const mapStateToProps = (state) => {
+  const { isList } = state.map;
+
+  return { isList };
+};
+
+export default connect(mapStateToProps, { imageButton })(RouterComponent);

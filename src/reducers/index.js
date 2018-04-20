@@ -5,8 +5,9 @@ import MarkerReducer from './MarkerReducer';
 import ActivityReducer from './ActivityReducer';
 
 export default combineReducers({
-    map: () => [],
+    map: MapReducer,
     auth: AuthReducer,
     marker: MarkerReducer,
     activity: ActivityReducer
 });
+
