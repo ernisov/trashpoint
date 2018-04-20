@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Spinner, Button } from './common';
 import { Marker } from './map/index';
 import { toYellow, toGreen } from '../actions';
+import { Actions } from 'react-native-router-flux';
 
 import {
   SCREEN_HEIGHT,
@@ -29,6 +30,7 @@ class MarkerDetails extends Component {
       address: this.props.marker.address,
     };
     this.props.toYellow(info);
+    Actions.pop();
   }
 
   toGreen() {
@@ -39,6 +41,7 @@ class MarkerDetails extends Component {
       address: this.props.marker.address,
     };
     this.props.toGreen(info);
+    Actions.pop()
   }
 
   renderAmount() {
@@ -106,20 +109,24 @@ class MarkerDetails extends Component {
   renderButton() {
     if (this.props.marker.status === 'red') {
       return (
-        <Button
-          text='Начать уборку'
-          onPress={this.toYellow.bind(this)}
-          style={styles.button}
-        />
+        <View style={styles.section}>
+          <Button
+            text='Начать уборку'
+            onPress={this.toYellow.bind(this)}
+            style={styles.button}
+          />
+        </View>
       );
     }
     if (this.props.marker.status === 'yellow') {
       return (
-        <Button
-          text='Закончить уборку'
-          onPress={this.toGreen.bind(this)}
-          style={styles.button}
-        />
+        <View style={styles.section}>
+          <Button
+            text='Закончить уборку'
+            onPress={this.toGreen.bind(this)}
+            style={styles.button}
+          />
+        </View>
       );
     }
   }
@@ -147,9 +154,7 @@ class MarkerDetails extends Component {
             {this.renderImages()}
           </ScrollView>
         </View>
-        <View style={styles.section}>
           {this.renderButton()}
-        </View>
       </ScrollView>  
     );
   }

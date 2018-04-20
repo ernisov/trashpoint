@@ -3,6 +3,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
 import Geocoder from 'react-native-geocoder';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 
 import {
   SEND_MARKER,
@@ -10,6 +11,7 @@ import {
   CAMERA,
   POSITION_ACQUIRED,
   AMOUNT_CHANGED,
+  GET_MARKERS,
 } from './types';
 
 import {
@@ -178,6 +180,19 @@ export const toYellow = ({ authorID, markerID, imageURI, address }) => {
       imageURI: imageURI,
       address: address,
       type: 'toYellow',
+    }).then(() => {
+      firebase.database().ref(`/markers`).on('value', (snapshot) => {
+        const marks = snapshot.val();
+        let markers = {};
+        for (const user in marks) {
+          let m = _.map(marks[user], (val, id) => {
+            return { ...val, id };
+          });
+          markers = [...markers, ...m];
+        }
+  
+        dispatch({ type: GET_MARKERS, payload: markers });
+      });
     });
   };
 };
@@ -196,6 +211,19 @@ export const toGreen = ({ authorID, markerID, imageURI, address }) => {
       imageURI: imageURI,
       address: address,
       type: 'toGreen',
+    }).then(() => {
+      firebase.database().ref(`/markers`).on('value', (snapshot) => {
+        const marks = snapshot.val();
+        let markers = {};
+        for (const user in marks) {
+          let m = _.map(marks[user], (val, id) => {
+            return { ...val, id };
+          });
+          markers = [...markers, ...m];
+        }
+  
+        dispatch({ type: GET_MARKERS, payload: markers });
+      });
     });
   };
 };

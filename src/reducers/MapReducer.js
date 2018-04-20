@@ -27,10 +27,9 @@ export default (state = INITIAL_STATE, action) => {
     case POSITION_CHANGED:
       return { ...state, position: action.payload };
     case GET_MARKERS:
-      return { ...state, markers: action.payload };
+      return { ...state, markers: [...action.payload] };
     case MAP_SWITCH:
       return { ...state, isList: !state.isList };
-    case MARKER_PRESSED:
     default:
       return state;
   };

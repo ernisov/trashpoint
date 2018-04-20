@@ -23,3 +23,6 @@ export const IMAGE_SHOT = 'image_shot';
 export const CAMERA = 'camera';
 export const POSITION_ACQUIRED = 'position_acquired';
 export const AMOUNT_CHANGED = 'amount_changed';
+
+export const TO_YELLOW = 'to_yellow';
+export const TO_GREEN = 'to_green';

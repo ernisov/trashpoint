@@ -9,32 +9,26 @@ class CustomMarker extends Component {
     Actions.MarkerDetails({ marker });
   }
 
-  assignStatusStyles(status) {
-    let markerStyle = null;
-
-    switch (status) {
-      case 'red':
-        markerStyle = styles.redMarker;
-        break;
-      case 'yellow':
-        markerStyle = styles.yellowMarker;
-        break;
-      default:
-        markerStyle = styles.greenMarker;
-    }
-
-    return markerStyle;
-  }
-
-
   render() {
     const { coords, status } = this.props.marker;
+    const renderCircle = (status) => {
+      console.log('status: ', status);
+      switch (status) {
+        case 'red':
+          return <View style={styles.redMarker} />;
+        case 'yellow':
+          return <View style={styles.yellowMarker} />;
+        default:
+          return <View style={styles.greenMarker} />;
+      }
+    };
+
     return (
         <Marker
           coordinate={coords}
           onPress={!this.props.disabled ? this.onMarkerPress.bind(this) : null}
         >
-          <View style={this.assignStatusStyles(status)}/>
+          {renderCircle(status)}
         </Marker>
     );
   }

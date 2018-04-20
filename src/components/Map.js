@@ -32,12 +32,14 @@ class Map extends Component {
   }
 
   renderMarkers() {
-    return this.props.markers.map((marker) => (
+    return this.props.markers.map((marker) => {
+      return (
         <Marker
-          key={marker.id}
+          key={`${marker.id}${Date.now()}`}
           marker={marker}
         />
-      ));
+      );
+    });
   }
 
   renderScreen() {
@@ -106,9 +108,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { position, isList, markers } = state.map;
-  console.log(markers);
-  return { position, markers, isList };
+  const { position, isList } = state.map;
+
+  return {
+    position: position,
+    markers: [...state.map.markers],
+    isList: isList,
+  };
 };
 
 export default connect(mapStateToProps, { positionChanged, getMarkers, mapSwitch })(Map);
