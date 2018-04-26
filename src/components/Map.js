@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import ActionButton from 'react-native-action-button';
@@ -36,6 +36,7 @@ class Map extends Component {
       return (
         <Marker
           key={`${marker.id}${Date.now()}`}
+          coordinate={marker.coords}
           marker={marker}
         />
       );
@@ -48,6 +49,11 @@ class Map extends Component {
         <MapView
           style={styles.mapView}
           region={this.props.position}
+          clustering={true}
+          clusterColor='#2ad2ac'
+          clusterTextColor='#fff'
+          clusterBorderColor='#2ad2ac'
+          clusterBorderWidth={1}
         >
           {this.renderMarkers()}
         </MapView>
