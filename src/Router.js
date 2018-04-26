@@ -14,6 +14,7 @@ import LoginForm from './components/LoginForm';
 import Register from './components/Register';
 import MarkerDetails from './components/MarkerDetails';
 import Profile from './components/settings/Profile';
+import SplashScreen from './components/SplashScreen';
 import {
   NotificationSettings,
   LanguageChange,
@@ -23,6 +24,7 @@ import {
 
 import {
   imageButton,
+  userLoggedIn
 } from './actions';
 
 class RouterComponent extends Component {
@@ -30,27 +32,36 @@ class RouterComponent extends Component {
     super(props);
     this.state = {
       user: '0',
+      loading: true,
     };
-    const that = this;
+  }
+
+  componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        that.setState({ user: '1', loading: false });
+      if (user !== null) {
+        this.props.userLoggedIn(user);
+        this.setState({ user: '1', loading: false });
       } else {
-        that.setState({ user: '0', loading: false });
+        this.setState({ user: '0', loading: false });
       }
     });
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <SplashScreen />
+      );
+    }
+
     return (
       <Router>
         <Scene key='root' hideNavBar>
 
-          <Scene key='loginStart' hideNavBar>
+          <Scene key='loginStart' hideNavBar initial={this.state.user === '0'}>
             <Scene
               key='login'
               component={LoginForm}
-              initial={this.state.user === '0'}
               hideNavBar
             />
             <Scene key='register' component={Register} hideNavBar />
@@ -175,4 +186,4 @@ const mapStateToProps = (state) => {
   return { isList };
 };
 
-export default connect(mapStateToProps, { imageButton })(RouterComponent);
+export default connect(mapStateToProps, { imageButton, userLoggedIn })(RouterComponent);

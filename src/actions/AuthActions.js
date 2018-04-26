@@ -154,3 +154,10 @@ export const newUserNameSave = ({ email ,firstName, lastName }) => {
     Actions.pop({ type: 'reset' });
   }
 };
+
+export const userLoggedIn = (user) => {
+  return {
+    type: LOGIN_USER_SUCCESS,
+    payload: user,
+  };
+};
