@@ -12,7 +12,6 @@ class CustomMarker extends Component {
   render() {
     const { coords, status } = this.props.marker;
     const renderCircle = (status) => {
-      console.log('status: ', status);
       switch (status) {
         case 'red':
           return <View style={styles.redMarker} />;

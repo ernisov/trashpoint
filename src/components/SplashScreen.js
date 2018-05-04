@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   image: {
     marginTop: SCREEN_HEIGHT * 0.2,
     alignSelf: 'center',
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT / 9,
+    width: 226,
+    height: 53,
   },
 });
 

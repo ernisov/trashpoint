@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Modal,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import MapView from 'react-native-map-clustering';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -13,7 +21,19 @@ import {
   ListItem
 } from './map';
 
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+} from '../variables';
+
 class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+    };
+  }
+
   componentDidMount() {
     const options = {
       enableHighAccuracy: true,
@@ -43,6 +63,43 @@ class Map extends Component {
     });
   }
 
+  setModalVisible() {
+    this.setState({ modalVisible: !this.state.modalVisible });
+  }
+
+  onClusterPress(coords, markers) {
+    const print = (markers) => {
+      return markers.forEach((x) => {
+        return (
+          <Text>{x.item.props.marker.address}</Text>
+        );
+      });
+    };
+
+    this.setState({ modalVisible: !this.state.modalVisible });
+  }
+
+  renderModal() {
+    return (
+      <Modal
+        animationType='slide'
+        visible={this.state.modalVisible}
+        transparent
+      >
+          <ScrollView contentContainerStyle={styles.modalWindow}>
+            <View>
+              <Text>Modal</Text>
+              <TouchableWithoutFeedback
+                onPress={(() => this.setState({ modalVisible: !this.state.modalVisible })).bind(this)}
+              >
+                <Text>close</Text>
+              </TouchableWithoutFeedback>
+            </View>
+          </ScrollView>
+      </Modal>
+    );
+  }
+
   renderScreen() {
     if (!this.props.isList) {
       return (
@@ -52,6 +109,10 @@ class Map extends Component {
           clusterColor='#2ad2ac'
           clusterTextColor='#ffffff'
           clusterBorderWidth={0}
+          onClusterPress={this.onClusterPress.bind(this)}
+          showsMyLocationButton
+          showsUserLocation
+          zoomControlEnabled
         >
           {this.renderMarkers()}
         </MapView>
@@ -79,13 +140,7 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         {this.renderScreen()}
-
-        <ActionButton
-          buttonColor='#2AD2AC'
-          renderIcon={() => renderIcon(this.props.isList)}
-          onPress={() => this.onActionButtonPressed()}
-          useNativeFeedback={false}
-        />
+        {this.renderModal()}
       </View>
     );
   }
@@ -109,6 +164,16 @@ const styles = StyleSheet.create({
   actionButton: {
     color: '#FFF',
   },
+  modalWindow: {
+    backgroundColor: '#fff',
+    width: SCREEN_WIDTH * 0.9,
+    marginVertical: SCREEN_HEIGHT * 0.1,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    alignSelf: 'center',
+    borderRadius: 5,
+    elevation: 2,
+  }
 });
 
 const mapStateToProps = (state) => {
