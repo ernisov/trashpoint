@@ -10,6 +10,7 @@ import {
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Feather';
+import _ from 'lodash';
 import { Spinner, Button } from './common';
 import { Marker } from './map/index';
 import { toYellow, toGreen } from '../actions';
@@ -106,7 +107,7 @@ class MarkerDetails extends Component {
   }
 
   renderImages() {
-    return this.props.marker.imageURI.map(value => {
+    return _.map(this.props.marker.imageURI, (value) => {
       return (
         <Picture
           key={value}
@@ -114,7 +115,7 @@ class MarkerDetails extends Component {
           source={{ uri: value }}
         />
       );
-    });
+    }).reverse();
   }
 
   renderButton() {
@@ -168,7 +169,7 @@ class MarkerDetails extends Component {
           </View>
             {this.renderButton()}
         </View>
-      </ScrollView>  
+      </ScrollView>
     );
   }
 }

@@ -49,6 +49,9 @@ class Map extends Component {
         <MapView
           style={styles.mapView}
           region={this.props.position}
+          clusterColor='#2ad2ac'
+          clusterTextColor='#ffffff'
+          clusterBorderWidth={0}
         >
           {this.renderMarkers()}
         </MapView>

@@ -19,98 +19,98 @@ import {
 } from '../variables';
 
 export const getImage = () => {
-    return (dispatch) => {
-      ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        compressImageQuality: 0.5,
-        cropping: false,
-      }).then(image => {
-          const { uid } = firebase.auth().currentUser;
-          const Blob = RNFetchBlob.polyfill.Blob;
-          const fs = RNFetchBlob.fs;
-          const Fetch = RNFetchBlob.polyfill.Fetch;
-          window.fetch = new Fetch({
-              auto: true,
-              binaryContentTypes: ['image/'],
-          }).build();
-          window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-          window.Blob = Blob;
-          let uploadBlob = '';
+  return (dispatch) => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      compressImageQuality: 0.5,
+      cropping: false,
+    }).then(image => {
+        const { uid } = firebase.auth().currentUser;
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        const Fetch = RNFetchBlob.polyfill.Fetch;
+        window.fetch = new Fetch({
+            auto: true,
+            binaryContentTypes: ['image/'],
+        }).build();
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+        window.Blob = Blob;
+        let uploadBlob = '';
 
-          const timestamp = new Date().getTime().toString();
-          const imageRef = firebase.storage().ref(`users/${uid}/markers`).child(`${timestamp}.jpg`);
+        const timestamp = new Date().getTime().toString();
+        const imageRef = firebase.storage().ref(`users/${uid}/markers`).child(`${timestamp}.jpg`);
 
-          let mime = 'image/jpg';
+        let mime = 'image/jpg';
 
-          fs.readFile(image.path, 'base64')
-            .then(data => {
-              return Blob.build(data, { type: `${mime};BASE64` });
-            })
-            .then(blob => {
-              uploadBlob = blob;
-              return imageRef.put(blob, { contentType: mime });
-            })
-            .then(() => {
-              uploadBlob.close();
-              return imageRef.getDownloadURL();
-            })
-            .then(url => {
-              dispatch({
-                 type: IMAGE_SHOT,
-                 payload: url,
-              });
-            }).catch(err => console.log(err));
-      });
-    };
+        fs.readFile(image.path, 'base64')
+          .then(data => {
+            return Blob.build(data, { type: `${mime};BASE64` });
+          })
+          .then(blob => {
+            uploadBlob = blob;
+            return imageRef.put(blob, { contentType: mime });
+          })
+          .then(() => {
+            uploadBlob.close();
+            return imageRef.getDownloadURL();
+          })
+          .then(url => {
+            dispatch({
+               type: IMAGE_SHOT,
+               payload: url,
+            });
+          }).catch(err => console.log(err));
+    });
+  };
 };
 
 export const imageButton = () => {
-    return (dispatch) => {
-      ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        compressImageQuality: 0.5,
-        cropping: false,
-      }).then(image => {
-          Actions.marker();
-          const { uid } = firebase.auth().currentUser;
-          const Blob = RNFetchBlob.polyfill.Blob;
-          const fs = RNFetchBlob.fs;
-          const Fetch = RNFetchBlob.polyfill.Fetch;
-          window.fetch = new Fetch({
-              auto: true,
-              binaryContentTypes: ['image/'],
-          }).build();
-          window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-          window.Blob = Blob;
-          let uploadBlob = '';
+  return (dispatch) => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      compressImageQuality: 0.5,
+      cropping: false,
+    }).then(image => {
+        Actions.marker();
+        const { uid } = firebase.auth().currentUser;
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        const Fetch = RNFetchBlob.polyfill.Fetch;
+        window.fetch = new Fetch({
+            auto: true,
+            binaryContentTypes: ['image/'],
+        }).build();
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+        window.Blob = Blob;
+        let uploadBlob = '';
 
-          const timestamp = new Date().getTime().toString();
-          const imageRef = firebase.storage().ref(`users/${uid}/markers`).child(`${timestamp}.jpg`);
+        const timestamp = new Date().getTime().toString();
+        const imageRef = firebase.storage().ref(`users/${uid}/markers`).child(`${timestamp}.jpg`);
 
-          let mime = 'image/jpg';
+        let mime = 'image/jpg';
 
-          fs.readFile(image.path, 'base64')
-            .then(data => {
-              return Blob.build(data, { type: `${mime};BASE64` });
-            })
-            .then(blob => {
-              uploadBlob = blob;
-              return imageRef.put(blob, { contentType: mime });
-            })
-            .then(() => {
-              uploadBlob.close();
-              return imageRef.getDownloadURL();
-            })
-            .then(url => {
-              dispatch({
-                 type: IMAGE_SHOT,
-                 payload: url,
-              });
-            }).catch(err => console.log(err));
-      });
-    };
+        fs.readFile(image.path, 'base64')
+          .then(data => {
+            return Blob.build(data, { type: `${mime};BASE64` });
+          })
+          .then(blob => {
+            uploadBlob = blob;
+            return imageRef.put(blob, { contentType: mime });
+          })
+          .then(() => {
+            uploadBlob.close();
+            return imageRef.getDownloadURL();
+          })
+          .then(url => {
+            dispatch({
+               type: IMAGE_SHOT,
+               payload: url,
+            });
+          }).catch(err => console.log(err));
+    });
+  };
 };
 
 export const positionAcquired = (position) => {
@@ -191,7 +191,7 @@ export const toYellow = ({ authorID, markerID, imageURI, address }) => {
           });
           markers = [...markers, ...m];
         }
-  
+
         dispatch({ type: GET_MARKERS, payload: markers });
       });
     });
@@ -204,6 +204,46 @@ export const toGreen = ({ authorID, markerID, imageURI, address }) => {
     firebase.database().ref(`/markers/${authorID}/${markerID}`).update({
       status: 'green',
       contributorsID: [uid]
+    });
+
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      compressImageQuality: 0.5,
+      cropping: false,
+    }).then(image => {
+        const { uid } = firebase.auth().currentUser;
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        const Fetch = RNFetchBlob.polyfill.Fetch;
+        window.fetch = new Fetch({
+            auto: true,
+            binaryContentTypes: ['image/'],
+        }).build();
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+        window.Blob = Blob;
+        let uploadBlob = '';
+
+        const timestamp = new Date().getTime().toString();
+        const imageRef = firebase.storage().ref(`users/${uid}/markers`).child(`${timestamp}.jpg`);
+
+        let mime = 'image/jpg';
+
+        fs.readFile(image.path, 'base64')
+          .then(data => {
+            return Blob.build(data, { type: `${mime};BASE64` });
+          })
+          .then(blob => {
+            uploadBlob = blob;
+            return imageRef.put(blob, { contentType: mime });
+          })
+          .then(() => {
+            uploadBlob.close();
+            return imageRef.getDownloadURL();
+          })
+          .then(url => {
+            firebase.database().ref(`/markers/${uid}/${markerID}/imageURI`).update({ completionImage: url });
+          }).catch(err => console.log(err));
     });
 
     firebase.database().ref(`/contributions`).child(`${uid}`).push().set({
@@ -223,7 +263,7 @@ export const toGreen = ({ authorID, markerID, imageURI, address }) => {
           });
           markers = [...markers, ...m];
         }
-  
+
         dispatch({ type: GET_MARKERS, payload: markers });
       });
     });
